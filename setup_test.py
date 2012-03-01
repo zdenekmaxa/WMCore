@@ -177,7 +177,7 @@ if can_nose:
             
             args.extend(['-v', '--with-id'])
             args.extend(myIds)
-            return nose.run( argv=args )
+            return nose.run( argv=args, addplugins=[DetailedOutputter()] )
 
         def run(self):
             testPath = 'test/python'
