@@ -219,7 +219,7 @@ class TaskChainTests(unittest.TestCase):
                 "ConfigCacheID" : generatorDoc, 
                 "SplittingAlgorithm"  : "EventBased",
                 "SplittingArguments" : {"events_per_job" : 250},
-                "RequestSizeEvents" : 10000,
+                "RequestNumEvents" : 10000,
                 "Seeding" : "Automatic",
                 "PrimaryDataset" : "RelValTTBar",
             },
