@@ -295,10 +295,10 @@ class StdBase(object):
             # delete dataset information from scenarioArgs
             if scenarioArgs.has_key('outputs'):
                 for output in scenarioArgs['outputs']:
-                    if 'primartyDataset' in output:
+                    if 'primaryDataset' in output:
                         del output['primaryDataset']
             if scenarioArgs.has_key('primaryDataset'):
-                if 'primaryDataset' in output:
+                if 'primaryDataset' in scenarioArgs:
                     del scenarioArgs['primaryDataset']
 
             procTaskCmsswHelper.setDataProcessingConfig(scenarioName, scenarioFunc,
