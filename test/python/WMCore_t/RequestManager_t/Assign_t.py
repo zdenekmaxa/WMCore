@@ -41,15 +41,6 @@ class AssignTest(RESTBaseUnitTest):
         Database setUp is done in base class
         """
         self.couchDBName = "reqmgr_t_0"
-        RESTBaseUnitTest.setUp(self, initRoot = False)
-        self.testInit.setupCouch("%s" % self.couchDBName,
-                                 "GroupUser", "ConfigCache")
-
-        reqMgrHost      = self.config.getServerUrl()
-        self.jsonSender = JSONRequests(reqMgrHost)
-        return
-
-    def initialize(self):
         self.config = RequestManagerConfig(
                 'WMCore.HTTPFrontEnd.RequestManager.Assign')
         self.config.setFormatter('WMCore.WebTools.RESTFormatter')
@@ -57,6 +48,12 @@ class AssignTest(RESTBaseUnitTest):
         self.config.setupCouchDatabase(dbName = self.couchDBName)
         self.config.setPort(12888)
         self.schemaModules = ["WMCore.RequestManager.RequestDB"]
+        super(AssignTest, self).setUp()
+        self.testInit.setupCouch("%s" % self.couchDBName,
+                                 "GroupUser", "ConfigCache")
+
+        reqMgrHost      = self.config.getServerUrl()
+        self.jsonSender = JSONRequests(reqMgrHost)
         return
 
     def tearDown(self):

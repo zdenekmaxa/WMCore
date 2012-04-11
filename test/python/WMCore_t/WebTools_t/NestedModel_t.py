@@ -7,7 +7,11 @@ from WMQuality.WebTools.RESTServerSetup import DefaultConfig
 
 class NestedModelTest(RESTBaseUnitTest):
 
-    def initialize(self):
+    def setUp(self):
+        """
+        setUP global values
+        Database setUp is done in base class
+        """
         self.config = DefaultConfig('WMCore_t.WebTools_t.DummyNestedModel')
         do_debug = True
 
@@ -20,6 +24,7 @@ class NestedModelTest(RESTBaseUnitTest):
             self.config.Webtools.access_log_level = logging.WARNING
 
         self.urlbase = self.config.getServerUrl()
+        RESTBaseUnitTest.setUp(self)
 
     def testOuterFooPass(self):
         verb ='GET'

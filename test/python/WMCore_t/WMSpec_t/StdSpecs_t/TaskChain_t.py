@@ -260,12 +260,7 @@ class TaskChainTests(unittest.TestCase):
         }
 
         factory = TaskChainWorkloadFactory()
-        
-        try:
-            self.workload = factory("PullingTheChain", arguments)
-        except Exception, ex:
-            msg = "Error invoking TaskChainWorkloadFactory:\n%s" % str(ex)
-            self.fail(msg)
+        self.workload = factory("PullingTheChain", arguments)
         
         
         self.workload.setSpecUrl("somespec")
@@ -432,11 +427,7 @@ class TaskChainTests(unittest.TestCase):
         }
     
         factory = TaskChainWorkloadFactory()        
-        try:
-            self.workload = factory("YankingTheChain", arguments)
-        except Exception, ex:
-            msg = "Error invoking TaskChainWorkloadFactory:\n%s" % str(ex)
-            self.fail(msg)
+        self.workload = factory("YankingTheChain", arguments)
 
 
         self.workload.setSpecUrl("somespec")
@@ -537,12 +528,7 @@ class TaskChainTests(unittest.TestCase):
         }
 
         factory = TaskChainWorkloadFactory()
-        try:
-            self.workload = factory("YankingTheChain", arguments)
-        except Exception, ex:
-            msg = "Error invoking TaskChainWorkloadFactory:\n%s" % str(ex)
-            self.fail(msg)
-
+        self.workload = factory("YankingTheChain", arguments)
 
         self.workload.setSpecUrl("somespec")
         self.workload.setOwnerDetails("evansde@fnal.gov", "DMWM")
@@ -636,11 +622,7 @@ class TaskChainTests(unittest.TestCase):
             }
         }
         factory = TaskChainWorkloadFactory()        
-        try:
-            self.workload = factory("Tier0Test", arguments)
-        except Exception, ex:
-            msg = "Error invoking TaskChainWorkloadFactory:\n%s" % str(ex)
-            self.fail(msg)
+        self.workload = factory("Tier0Test", arguments)
 
 
         self.workload.setSpecUrl("somespec")

@@ -157,7 +157,7 @@ class Root(Harness):
                     elif type(param_value) in [type('string'), type(123)]:
                         cherrypy.config["%s.%s" % (i, config_param)] = param_value
                     else:
-                        raise Exception("Unsupported configuration type: %s" % type(v))
+                        raise Exception("Unsupported configuration type: %s" % type(param_value))
 
         # which we then over write with short hand variables if necessary
         cherrypy.config["server.environment"] = configDict.get("environment", "production")
@@ -356,7 +356,7 @@ class Root(Harness):
                         namesAndDocstrings.append((viewName, docstring))
             cherrypy.tree.mount(Welcome(namesAndDocstrings), "/%s" % self.app.lower())
 
-    def start(self, blocking=True):
+    def start(self, blocking=True, start_engine = True):
         """
         Configure and start the server
         """
@@ -364,7 +364,8 @@ class Root(Harness):
         self._configureCherryPy()
         self._loadPages()
         self._makeIndex()
-        cherrypy.engine.start()
+        if start_engine:
+            cherrypy.engine.start()
         if blocking:
             cherrypy.engine.block()
 
