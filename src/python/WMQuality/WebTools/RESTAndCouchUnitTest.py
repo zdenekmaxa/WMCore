@@ -8,4 +8,4 @@ class RESTAndCouchUnitTest(RESTBaseUnitTest):
         # default set
         if self.schemaModules:
             self.testInit = TestInitCouchApp(__file__)
-        RESTBaseUnitTest.__init__(self)
+        RESTBaseUnitTest.setUp( self )

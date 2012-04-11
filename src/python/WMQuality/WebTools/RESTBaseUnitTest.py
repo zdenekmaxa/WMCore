@@ -1,45 +1,56 @@
 import unittest
 import cherrypy
+from cherrypy.lib import gctools
+from cherrypy.test import helper
+import sys
 import logging
 import threading
+import warnings
 
 #decorator import for RESTServer setup
 from WMQuality.WebTools.RESTServerSetup import DefaultConfig
 from WMCore.WebTools.Root import Root
 
-class RESTBaseUnitTest(unittest.TestCase):
-    
+del helper.CPWebCase.test_gc
+class RESTBaseUnitTest(helper.CPWebCase):
+    globalInstances = []
+    rt = None
     def setUp(self, initRoot = True):
-        # default set
-        self.schemaModules = []
-        self.initialize()
-        if self.schemaModules:
-            import warnings
-            warnings.warn("use RESTAndCouchUnitTest instead", DeprecationWarning)
-            from WMQuality.TestInitCouchApp import TestInitCouchApp
-            self.testInit = TestInitCouchApp(__file__)
-            self.testInit.setLogging() # logLevel = logging.SQLDEBUG
-            self.testInit.setDatabaseConnection()
+        # Don't pull in couchapp if we need to
+        #   do we really need this? Everyone should have the same
+        #   dev environment
+        if hasattr(self, 'schemaModules') and self.schemaModules:
+            from WMQuality.TestInitCouchApp import TestInitCouchApp as TestInit
+        else:
+            from WMQuality.TestInit import TestInit
+            
+        self.testInit = TestInit(__file__)
+        self.testInit.setLogging() # logLevel = logging.SQLDEBUG
+        self.testInit.setDatabaseConnection( destroyAllDatabase = True )
+        myThread = threading.currentThread()
+        self.config.setDBUrl(myThread.dbFactory.dburl)
+        if hasattr(self, 'schemaModules') and self.schemaModules:
             self.testInit.setSchema(customModules = self.schemaModules,
                                     useDefault = False)
-            # Now pull the dbURL from the factory
-            # I prefer this method because the factory has better error handling
-            # Also because then you know everything is the same
-            myThread = threading.currentThread()
-            self.config.setDBUrl(myThread.dbFactory.dburl)
-            
-        logging.info("This is our config: %s" % self.config)
-
         self.initRoot = initRoot
         if initRoot:
+            # the root object we're gonna test
             self.rt = Root(self.config)
-            self.rt.start(blocking=False)
-        return
+            # obnoxious thing to match the cherrypy harness
+            # the actual startup happens in setup_class()
+            self.__class__.rt = self.rt
+            # fires up the test case
+            self.setup_class()
+                
+    def setup_server(cls):
+        cls.rt.start(blocking=False, start_engine=False)
+    setup_server = classmethod(setup_server)
         
     def tearDown(self):
         if self.initRoot:
-            self.rt.stop()
-        if self.schemaModules:
+            if hasattr(self, 'supervisor'):
+                self.teardown_class()
+        if hasattr(self, 'schemaModules') and self.schemaModules:
             self.testInit.clearDatabase()
         self.config = None
         return
@@ -52,6 +63,4 @@ class RESTBaseUnitTest(unittest.TestCase):
         self.config.setDBUrl('sqlite://')
         self.schemaModules = ['WMCore.ThreadPool', 'WMCore.WMBS']
         """
-        
-        message = "initialize method has to be implemented, self.restModel, self.schemaModules needs to be set"
-        raise NotImplementedError, message
+        warnings.warn("You probably want to implement initialize()", Warning)
