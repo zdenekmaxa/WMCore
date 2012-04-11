@@ -23,7 +23,7 @@ from WMCore.Wrappers import JsonWrapper
 
 class RESTFormatTest(RESTBaseUnitTest):
 
-    def initialize(self):
+    def setUp(self):
         self.config = DefaultConfig('WMCore_t.WebTools_t.DummyRESTModel')
         do_debug = False
 
@@ -36,7 +36,8 @@ class RESTFormatTest(RESTBaseUnitTest):
             self.config.Webtools.access_log_level = logging.WARNING
 
         self.urlbase = self.config.getServerUrl()
-
+        RESTBaseUnitTest.setUp(self)
+        
     def testUnsupportedFormat(self):
         # test not accepted type should return 406 error
         url = self.urlbase +'list1/'

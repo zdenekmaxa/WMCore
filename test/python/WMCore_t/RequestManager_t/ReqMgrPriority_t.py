@@ -37,7 +37,14 @@ class ReqMgrPriorityTest(RESTBaseUnitTest):
         Database setUp is done in base class
         """
         self.couchDBName = "reqmgr_t_0"
-        RESTBaseUnitTest.setUp(self)
+        self.config = RequestManagerConfig(
+                'WMCore.HTTPFrontEnd.RequestManager.ReqMgrRESTModel')
+        self.config.setFormatter('WMCore.WebTools.RESTFormatter')
+        self.config.setupRequestConfig()
+        self.config.setupCouchDatabase(dbName = self.couchDBName)
+        self.config.setPort(8889)
+        self.schemaModules = ["WMCore.RequestManager.RequestDB"]
+        super(ReqMgrPriorityTest, self).setUp()
         self.testInit.setupCouch("%s" % self.couchDBName,
                                  "GroupUser", "ConfigCache")
 
@@ -45,15 +52,6 @@ class ReqMgrPriorityTest(RESTBaseUnitTest):
         self.jsonSender = JSONRequests(reqMgrHost)
         return
 
-    def initialize(self):
-        self.config = RequestManagerConfig(
-                'WMCore.HTTPFrontEnd.RequestManager.ReqMgrRESTModel')
-        self.config.setFormatter('WMCore.WebTools.RESTFormatter')
-        self.config.setupRequestConfig()
-        self.config.setupCouchDatabase(dbName = self.couchDBName)
-        self.config.setPort(8888)
-        self.schemaModules = ["WMCore.RequestManager.RequestDB"]
-        return
 
     def tearDown(self):
         """
@@ -62,7 +60,7 @@ class ReqMgrPriorityTest(RESTBaseUnitTest):
         Basic tear down of database
         """
 
-        RESTBaseUnitTest.tearDown(self)
+        super(ReqMgrPriorityTest, self).tearDown()
         self.testInit.tearDownCouch()
         return
 
@@ -308,4 +306,6 @@ class ReqMgrPriorityTest(RESTBaseUnitTest):
 
 
 if __name__=='__main__':
+    import WMQuality.TestInit
+    WMQuality.TestInit.deleteDatabaseAfterEveryTest( "I'm Serious" )
     unittest.main()

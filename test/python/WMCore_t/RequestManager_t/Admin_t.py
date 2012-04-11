@@ -8,9 +8,9 @@ Test for code in the RequestDB/Admin section
 import os
 import unittest
 
-from WMCore.Services.Requests            import JSONRequests
+from WMCore.Services.Requests                import JSONRequests
 from WMQuality.WebTools.RESTBaseUnitTest import RESTBaseUnitTest
-from WMCore_t.RequestManager_t.ReqMgr_t  import RequestManagerConfig, getRequestSchema
+from WMCore_t.RequestManager_t.ReqMgr_t      import RequestManagerConfig, getRequestSchema
 
 from WMCore.RequestManager.RequestDB.Interface.Admin import SoftwareManagement
 from WMCore.HTTPFrontEnd.RequestManager              import ReqMgrWebTools
@@ -29,16 +29,6 @@ class AdminTest(RESTBaseUnitTest):
         Database setUp is done in base class
         """
         self.couchDBName = "reqmgr_t_0"
-        RESTBaseUnitTest.setUp(self)
-        self.testInit.setupCouch("%s" % self.couchDBName,
-                                 "GroupUser", "ConfigCache")
-
-        reqMgrHost      = self.config.getServerUrl()
-        self.jsonSender = JSONRequests(reqMgrHost)
-
-        return
-
-    def initialize(self):
         self.config = RequestManagerConfig(
                 'WMCore.HTTPFrontEnd.RequestManager.ReqMgrRESTModel')
         self.config.setFormatter('WMCore.WebTools.RESTFormatter')
@@ -46,7 +36,12 @@ class AdminTest(RESTBaseUnitTest):
         self.config.setupCouchDatabase(dbName = self.couchDBName)
         self.config.setPort(12888)
         self.schemaModules = ["WMCore.RequestManager.RequestDB"]
-        return
+        RESTBaseUnitTest.setUp( self )
+        self.testInit.setupCouch("%s" % self.couchDBName,
+                                 "GroupUser", "ConfigCache")
+
+        reqMgrHost      = self.config.getServerUrl()
+        self.jsonSender = JSONRequests(reqMgrHost)
 
     def tearDown(self):
         """
@@ -57,7 +52,6 @@ class AdminTest(RESTBaseUnitTest):
 
         RESTBaseUnitTest.tearDown(self)
         self.testInit.tearDownCouch()
-        return
 
     def testA_SoftwareManagement(self):
         """
@@ -89,7 +83,6 @@ class AdminTest(RESTBaseUnitTest):
 
         ReqMgrWebTools.updateScramArchsAndCMSSWVersions()
         self.assertTrue('slc5_amd64_gcc434' in admin.scramArchs())
-        return
 
 if __name__=='__main__':
     unittest.main()

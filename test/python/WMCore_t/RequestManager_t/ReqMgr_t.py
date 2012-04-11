@@ -95,15 +95,6 @@ class ReqMgrTest(RESTBaseUnitTest):
         Database setUp is done in base class
         """
         self.couchDBName = "reqmgr_t_0"
-        RESTBaseUnitTest.setUp(self)
-        self.testInit.setupCouch("%s" % self.couchDBName,
-                                 "GroupUser", "ConfigCache")
-
-        reqMgrHost      = self.config.getServerUrl()
-        self.jsonSender = JSONRequests(reqMgrHost)
-        return
-
-    def initialize(self):
         self.config = RequestManagerConfig(
                 'WMCore.HTTPFrontEnd.RequestManager.ReqMgrRESTModel')
         self.config.setFormatter('WMCore.WebTools.RESTFormatter')
@@ -111,6 +102,12 @@ class ReqMgrTest(RESTBaseUnitTest):
         self.config.setupCouchDatabase(dbName = self.couchDBName)
         self.config.setPort(12888)
         self.schemaModules = ["WMCore.RequestManager.RequestDB"]
+        super(ReqMgrTest, self).setUp()
+        self.testInit.setupCouch("%s" % self.couchDBName,
+                                 "GroupUser", "ConfigCache")
+
+        reqMgrHost      = self.config.getServerUrl()
+        self.jsonSender = JSONRequests(reqMgrHost)
         return
 
     def tearDown(self):
@@ -119,7 +116,7 @@ class ReqMgrTest(RESTBaseUnitTest):
 
         Tear down everything
         """
-        RESTBaseUnitTest.tearDown(self)
+        super(ReqMgrTest, self).tearDown()
         self.testInit.tearDownCouch()
         return
 

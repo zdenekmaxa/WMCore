@@ -44,7 +44,12 @@ secureConfig.SecurityModule.default.group = DUMMY_GROUP
 secureConfig.SecurityModule.default.site = DUMMY_SITE
 
 class RESTTest(RESTBaseUnitTest):
-    def initialize(self):
+    
+    def setUp(self):
+        """
+        setUP global values
+        Database setUp is done in base class
+        """
         self.config = DefaultConfig('WMCore_t.WebTools_t.DummyRESTModel')
         self.do_debug = False
         self.do_production = False
@@ -64,8 +69,8 @@ class RESTTest(RESTBaseUnitTest):
         if not self.do_debug:
             self.config.Webtools.error_log_level = logging.WARNING
             self.config.Webtools.access_log_level = logging.WARNING
-
         self.urlbase = self.config.getServerUrl()
+        RESTBaseUnitTest.setUp(self)
 
     def testUnsupportedFormat(self):
         # test not accepted type should return 406 error
