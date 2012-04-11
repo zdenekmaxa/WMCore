@@ -1,6 +1,5 @@
 import unittest
 import cherrypy
-from cherrypy.lib import gctools
 from cherrypy.test import helper
 import sys
 import logging
@@ -11,7 +10,8 @@ import warnings
 from WMQuality.WebTools.RESTServerSetup import DefaultConfig
 from WMCore.WebTools.Root import Root
 
-del helper.CPWebCase.test_gc
+if hasattr( helper.CPWebCase, 'test_gc'):
+    del helper.CPWebCase.test_gc
 class RESTBaseUnitTest(helper.CPWebCase):
     globalInstances = []
     rt = None
@@ -43,7 +43,8 @@ class RESTBaseUnitTest(helper.CPWebCase):
             self.setup_class()
                 
     def setup_server(cls):
-        cls.rt.start(blocking=False, start_engine=False)
+        if cls.rt:
+            cls.rt.start(blocking=False, start_engine=False)
     setup_server = classmethod(setup_server)
         
     def tearDown(self):

@@ -226,12 +226,12 @@ if can_nose:
                 moduleList = ",".join(modulesToCover)
                 sys.stdout.flush()
                 if not quickTestArg:
-                    args = [__file__,'--with-xunit', '-m', '(_t.py$)|(_t$)|(^test)','-a', '-v',
+                    args = [__file__,'--with-xunit', '-m', '(_t.py$)|(_t$)|(^test)','-v','-a',
                                      '!workerNodeTest,!integration,!performance,!__integration__,!__performance__,!broken,!__broken__',
                                      '--with-coverage','--cover-html','--cover-html-dir=coverageHtml','--cover-erase',
                                      '--cover-package=' + moduleList, '--cover-inclusive']
                 else:
-                    args = [__file__,'--with-xunit', '-m', '(_t.py$)|(_t$)|(^test)','-a', '-v',
+                    args = [__file__,'--with-xunit', '-m', '(_t.py$)|(_t$)|(^test)','-v','-a', 
                          '!workerNodeTest,!integration,!performance,!__integration__,!__performance__',
                          '--stop']
                 retval = self.callNose(args, testPath)
