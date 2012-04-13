@@ -4,6 +4,7 @@ WMCore_t.RequestManager_t.ReqMgr_t.ReqMgrTest.testH_RemoveSoftwareVersion
 WMCore_t.Services_t.DBS_t.DBSReader_t.DBSReaderTest.testGetDBSSummaryInfo
 WMCore_t.Services_t.Requests_t.testRepeatCalls.test10Calls
 WMCore_t.Services_t.pycurlFileUpload_t.PyCurlRESTServer.testFileUpload
+WMCore_t.Services_t.pycurlFileUpload_t.PyCurlRESTServer.testFailingFileUpload
 WMCore_t.WMSpec_t.StdSpecs_t.MonteCarlo_t.MonteCarloTest.testRelValMCWithPileup
 WMCore_t.WMSpec_t.StdSpecs_t.StoreResults_t.StoreResultsTest.testStoreResults
 WMCore_t.WebTools_t.NestedModel_t.NestedModelTest.testInnerPingPass
@@ -23,4 +24,7 @@ WMCore_t.WorkQueue_t.WorkQueueReqMgrInterface_t.WorkQueueReqMgrInterfaceTest.tes
 WMCore_t.WorkQueue_t.WorkQueue_t.WorkQueueTest.testDrainSite
 WMCore_t.WorkQueue_t.WorkQueue_t.WorkQueueTest.testPriority
 WMCore_t.WorkQueue_t.WorkQueue_t.WorkQueueTest.testTeams
+WMCore_t.WorkQueue_t.WorkQueue_t.WorkQueueTest.testDrainMode
+WMCore_t.WorkQueue_t.WorkQueue_t.WorkQueueTest.testParentProcessing
+WMCore_t.WorkQueue_t.WorkQueue_t.WorkQueueTest.testSitesFromResourceControl
 WMQuality_t.Emulators_t.EmulatorSetup_t.EmulatorSetupTest.testEmulator
