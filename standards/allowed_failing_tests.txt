@@ -1,3 +1,4 @@
+WMComponent_t.JobAccountant_t.JobAccountant_t.JobAccountantTest.test4GMerge
 WMCore_t.RequestManager_t.ReqMgr_t.ReqMgrTest.testF_TestWhitelistBlacklist
 WMCore_t.RequestManager_t.ReqMgr_t.ReqMgrTest.testG_AddDuplicateUser
 WMCore_t.RequestManager_t.ReqMgr_t.ReqMgrTest.testH_RemoveSoftwareVersion
