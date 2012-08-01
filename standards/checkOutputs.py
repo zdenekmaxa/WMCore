@@ -18,25 +18,60 @@ from xml.dom.minidom import parse as parseXML
 allowedErrors = []
 fh = open(whitelist, 'r')
 for line in fh.readlines():
+    # remove annoying duplication nose does
+    stripped = line.strip()
+    splitted = stripped.split('.')
+    for index in range(len(splitted) - 1):
+        if splitted[0] == splitted[index + 1]:
+            line = ".".join(splitted[index + 1:])
+            break
+    
     allowedErrors.append( line.strip() )    
 fh.close()
 
 
-document = parseXML( testfile )
 
-suitePasses = True
-# look at test suites
-for suite in document.childNodes:
-    # look at testcases
-    for case in suite.childNodes:
-        if case.localName == 'testcase':
-            for child in case.childNodes:
-                if child.localName == 'error':
-                    if case.getAttribute('name') not in allowedErrors:
-                        print "Got an unallowed error: %s" % case.getAttribute('name')
-                        suitePasses = False
-                    else:
-                        print "Got an allowed error (FIXME): %s" % case.getAttribute('name')
+
+def checkJunitFile( document, allowedErrors, keepAllowed = True, keepUnallowed = True, verbose = False):
+    suitePasses = True
+    # look at test suites
+    for suite in document.childNodes:
+        # look at testcases
+        for case in suite.childNodes:
+            if case.localName == 'testcase':
+                for child in case.childNodes:
+                    if child.localName in ['error', 'failure']:
+                        if case.getAttribute('name') not in allowedErrors:
+                            if verbose: print("Got an unallowed error: %s" % case.getAttribute('name'))
+                            if not keepAllowed: 
+                                case.removeChild( child )
+                                child.unlink()
+                                failType = child.localName + "s"
+                                suite.setAttribute(failType, str(int(suite.getAttribute(failType)) - 1))
+                            suitePasses = False
+                        else:
+                            if verbose: print("Got an allowed error (FIXME): %s" % case.getAttribute('name'))
+                            if not keepUnallowed: 
+                                case.removeChild( child )
+                                child.unlink()
+                                failType = child.localName + "s"
+                                suite.setAttribute(failType, str(int(suite.getAttribute(failType)) - 1))
+    return suitePasses
+
+document      = parseXML( testfile )
+suitePasses = checkJunitFile( document, allowedErrors, verbose = True)
+
+ignoredErrors = document.cloneNode( True )
+checkJunitFile( ignoredErrors, allowedErrors, keepUnallowed = False )
+ignoredErrors.writexml( open('noseignored.xml','w') )
+ignoredErrors.unlink()
+
+trueErrors    = document.cloneNode( True )
+checkJunitFile( trueErrors, allowedErrors, keepAllowed = False )
+trueErrors.writexml( open('nosetrue.xml', 'w') )
+trueErrors.unlink()
+
+        
                         
 if suitePasses:
     print "Suite is OK"
