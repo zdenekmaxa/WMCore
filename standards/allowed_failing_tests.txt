@@ -168,4 +168,5 @@ WMCore_t.RequestManager_t.ReqMgrWorkload_t.ReqMgrWorkloadTest.WMCore_t.RequestMa
 WMCore_t.RequestManager_t.ReqMgr_t.ReqMgrTest.WMCore_t.RequestManager_t.ReqMgr_t.ReqMgrTest.testI_CheckConfigIDs
 WMCore_t.Services_t.PhEDEx_t.PhEDEx_t.PhEDExTest.WMCore_t.Services_t.PhEDEx_t.PhEDEx_t.PhEDExTest.testPFNLookup
 WMCore_t.Services_t.WorkQueue_t.WorkQueue_t.WorkQueueTest.WMCore_t.Services_t.WorkQueue_t.WorkQueue_t.WorkQueueTest.testWorkQueueService
+WMComponent_t.AlertGenerator_t.Pollers_t.Agent_t.AgentTest.testComponentsPollerBasic
 WMCore_t.Storage_t.Plugins_t.SRMV2Impl_t.SRMV2ImplTest.WMCore_t.Storage_t.Plugins_t.SRMV2Impl_t.SRMV2ImplTest.testFailOnFileSize
