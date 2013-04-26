@@ -21,7 +21,7 @@ reqmgr_oracle_tables_defition = {
     
     "reqmgr_group_association":
         ["ASSOCIATION_ID", "REQUESTOR_ID", "GROUP_ID"],
-    
+
     "reqmgr_teams":
         ["TEAM_ID", "TEAM_NAME"],
     
@@ -47,24 +47,30 @@ reqmgr_oracle_tables_defition = {
     "reqmgr_software_dependency":
         ["REQUEST_ID", "SOFTWARE_ID"],
     
+    # this information is already stored in wmstats couch database, it's
+    # reqmgr volatile data and will not be put in reqmgr_workload_cache
     "reqmgr_progress_update":
         ["REQUEST_ID", "UPDATE_TIME", "EVENTS_WRITTEN", "EVENTS_MERGED",
         "FILES_WRITTEN", "FILES_MERGED", "ASSOCIATED_DATASET",
         "TIME_PER_EVENT", "SIZE_PER_EVENT", "PERCENT_SUCCESS", 
         "PERCENT_COMPLETE"],
     
+    # this information is already stored in wmstats couch database, it's
+    # reqmgr volatile data and will not be put in reqmgr_workload_cache
     "reqmgr_message":
         ["REQUEST_ID", "UPDATE_TIME", "MESSAGE"],
     
+    # to ignore
     "reqmgr_assigned_prodmgr":
         ["REQUEST_ID", "PRODMGR_ID"],
     
+    # to ignore
     "reqmgr_assigned_prodagent":
         ["REQUEST_ID", "PRODAGENT_ID"],
     
     "reqmgr_campaign":
         ["CAMPAIGN_ID", "CAMPAIGN_NAME"],
-    
+
     "reqmgr_campaign_assoc":
         ["REQUEST_ID", "CAMPAIGN_ID"]
 }
